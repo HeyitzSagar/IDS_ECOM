@@ -1,0 +1,71 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Product {
+  _id: ID!
+  name: String!
+  price: Float!
+  description: String!
+  category: String
+  stock: Float!
+}
+
+type Cart {
+  _id: ID!
+  userId: String!
+  items: [CartItem!]!
+  totalPrice: Float!
+  date: DateTime!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type CartItem {
+  productId: String!
+  quantity: Float!
+  price: Float!
+}
+
+type Order {
+  _id: ID!
+  userId: String!
+  items: [OrderItem!]!
+  totalPrice: Float!
+  date: DateTime!
+}
+
+type OrderItem {
+  productId: String!
+  quantity: Float!
+  price: Float!
+}
+
+type Query {
+  getProducts(page: Float, limit: Float): [Product!]!
+  getProduct(id: String!): Product!
+  getCart(id: String!): Cart!
+  getOrders: [Order!]!
+  getOrder(id: String!): Order!
+}
+
+type Mutation {
+  addToCart(userId: String!, productId: String!, quantity: Float!, price: Float!): Cart!
+  removeFromCart(userId: String!, productId: String!): Cart!
+  checkout(input: CheckoutInput!): Order!
+  login(username: String!, password: String!): String!
+}
+
+input CheckoutInput {
+  userId: String!
+  items: [OrderItemInput!]!
+}
+
+input OrderItemInput {
+  productId: String!
+  quantity: Float!
+  price: Float!
+}
